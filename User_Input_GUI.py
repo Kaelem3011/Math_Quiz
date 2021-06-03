@@ -47,11 +47,10 @@ class Start:
             error_feedback = "Please input an integer"
 
         if has_errors == "yes":
-            self.start_amount_entry.config() 
-            self.error_label.config(text=error_feedback)
+            self.error_label.config(text=error_feedback, fg='maroon')
 
         else:
-            self.error_label.config(text=valid_feedback)
+            self.error_label.config(text=valid_feedback, fg='green')
      
            
 # main routine
