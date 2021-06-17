@@ -35,7 +35,7 @@ class Start:
         self.button_frame = Frame()
         self.button_frame.grid(pady=8)
         
-         # Play button (row 3)
+        # Play button (row 3)
         self.play_button = Button(self.button_frame, text="Play", pady=5, padx=5)
         self.play_button.grid(row=0, column=0, padx=5)        
 
