@@ -1,0 +1,145 @@
+from tkinter import *
+from functools import partial # To prevent unwanted windows
+import random
+ 
+ 
+class Start:
+    def __init__(self):
+ 
+        # GUI frame
+        self.Main_GUI = Frame(padx=20, pady=10)
+        self.Main_GUI.grid()
+
+        # Quiz Heading(row 0)
+        self.math_box_label = Label(self.Main_GUI, text="Math Quiz", font="Arial 19 bold")
+        self.math_box_label.grid(row=0)
+ 
+        # entry frame
+        self.entry_frame = Frame(self.Main_GUI, padx=10, pady=10)
+        self.entry_frame.grid(row=1)
+
+        self.low_amount_entry = Entry(self.entry_frame, font="Arial 19 bold", width=8)
+        self.low_amount_entry.grid(row=0, column=0)
+  
+        self.high_amount_entry = Entry(self.entry_frame, font="Arial 19 bold", width=8)
+        self.high_amount_entry.grid(row=0, column=1)
+ 
+        # error labels
+        self.error_frame = Frame(self.Main_GUI, padx=10, pady=10)
+        self.error_frame.grid(row=2)
+ 
+        self.error_1_label = Label(self.error_frame, fg="maroon",
+                                        text="", font="Arial 9 bold", wrap=275)
+        self.error_1_label.grid(row=0, column=0)
+
+       # checkbox frame
+        self.checkbox_frame = Frame(self.Main_GUI, padx=20, pady=5)
+        self.checkbox_frame.grid(row=3)
+  
+        # checkbox inputs
+        self.checkbox_entry = Checkbutton(self.checkbox_frame, text="+", variable="+")
+        self.checkbox_entry.grid(row=0)
+
+        self.checkbox_entry = Checkbutton(self.checkbox_frame, text="−", variable="−")
+        self.checkbox_entry.grid(row=1)
+
+        self.checkbox_entry = Checkbutton(self.checkbox_frame, text="×", variable="×")
+        self.checkbox_entry.grid(row=2)
+
+        self.checkbox_entry = Checkbutton(self.checkbox_frame, text="÷", variable="÷")
+        self.checkbox_entry.grid(row=3)
+
+        # buttons frame
+        self.buttons_frame = Frame(self.Main_GUI, padx=20, pady=5)
+        self.buttons_frame.grid(row=4)
+
+        # Enter button
+        self.enter_button = Button(self.buttons_frame, text="Enter", command=lambda: self.in_between("'"), pady=5, padx=5)
+        self.enter_button.grid(row=0, column=0, padx=5)
+
+        # Quit Button
+        self.quit_button = Button(self.buttons_frame, text="Quit", command=self.to_quit, padx=5, pady=5)
+        self.quit_button.grid(row=0, column=1, padx=5)
+
+        # help frame
+        self.help_frame = Frame(padx=20, pady=5)
+        self.help_frame.grid(row=4)
+
+        # Help Button
+        self.help_button = Button(self.help_frame, text='help', command=lambda:Help(), padx=32, pady=5)
+        self.help_button.grid(row=1, column=0)
+ 
+
+    # function detects if user input has min and max
+    def in_between (self, operation):
+ 
+        error_back = "red"
+        error_feedback = "no errors"
+ 
+        try:
+            min = int(self.low_amount_entry.get())
+            max = int(self.high_amount_entry.get())
+ 
+            if min > max:
+                self.error_1_label.config(fg='maroon', text="Error: Min value > Max value")
+            
+            if max > min:
+                self.error_1_label.config(fg='green', text="Valid: Min value = {} | Max value = {}".format(min, max))
+ 
+        except ValueError:
+            has_errors = "yes"
+            self.error_1_label.config(fg='maroon', text="Enter an integer for Max and min value")
+            
+    
+    def to_quit(self):
+        root.destroy()
+
+
+# child window
+class Help:
+    def __init__(self):
+
+        # Sets up child window (help box)
+        self.help_box = Toplevel()
+
+        # if users press cross at top, closes help and 'releases' help button
+        self.help_box.protocol('WM_DELETE_WINDOW', partial(self.close_help))
+
+        # Setup GUI Frame
+        self.help_frame = Frame(self.help_box, width=300)
+        self.help_frame.grid()
+
+        # Setup Help heading (row 0)
+        self.how_heading = Label(self.help_frame, text="Help / Instructions",
+                                    font="arial 14 bold")
+        self.how_heading.grid(row=0)
+
+        help_text = "Input One (left box) must be lower than or equal to Input Two (right box). " \
+                    "Only input integers, no decimals, letters, special letters etc."
+
+        # Help text (label, row 1)
+        self.help_text = Label(self.help_frame, text=help_text,
+                                justify=LEFT, wrap=400, padx=10, pady=10)
+        self.help_text.grid(row=1)
+
+        # Dismiss button (row 2)
+        self.dismiss_btn = Button(self.help_box, text="Dismiss", width=10,
+                                    bg='dark red', fg='white', font="arial 10 bold",
+                                    command=partial(self.close_help))
+        self.dismiss_btn.grid(row=2, pady=10)
+
+    def close_help(self):
+        # Put help button back to normal..
+        self.help_box.destroy()
+
+
+# main routine
+if __name__ == "__main__":
+    root = Tk()
+    root.title("Math Quiz")
+    something = Start()
+    root.mainloop()
+ 
+ 
+ 
+

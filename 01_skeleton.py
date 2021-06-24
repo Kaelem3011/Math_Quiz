@@ -7,8 +7,12 @@ class Start:
     def __init__(self, parent):
 
         # Heading frame
-        self.start_frame = Frame(padx=5, pady=5)
+        self.start_frame = Frame(padx=50, pady=5)
         self.start_frame.grid()
+
+        # input frame
+        self.input_frame = Frame(self.start_frame, padx=50, pady=5)
+        self.input_frame.grid()
 
         # Quiz Heading(row 0)
         self.math_box_label = Label(self.start_frame, text="Math Quiz",
@@ -16,15 +20,11 @@ class Start:
         self.math_box_label.grid(row=0)
 
         # User input (row 1)
-        self.entry_error_frame = Frame(self.start_frame, width=200)
+        self.entry_error_frame = Frame(self.input_frame, width=8)
         self.entry_error_frame.grid(row=2)
 
         self.start_amount_entry = Entry(self.entry_error_frame, font="Arial 19 bold", width=4)
         self.start_amount_entry.grid(row=0, column=0)
-
-        self.add_funds_button = Button(self.entry_error_frame, font="Arial 14 bold",
-                                       text="✓")
-        self.add_funds_button.grid(row=0, column=1)
 
         Checkbutton(root, text="+").grid(row=3)
         Checkbutton(root, text="−").grid(row=4)

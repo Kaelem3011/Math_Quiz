@@ -24,7 +24,7 @@ class Start:
  
         self.low_amount_entry = Entry(self.entry_frame, font="Arial 19 bold", width=8)
         self.low_amount_entry.grid(row=0, column=0)
- 
+  
         self.high_amount_entry = Entry(self.entry_frame, font="Arial 19 bold", width=8)
         self.high_amount_entry.grid(row=0, column=1)
  
