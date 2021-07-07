@@ -9,67 +9,57 @@ class Start:
         # GUI frame
         self.Main_GUI = Frame(padx=20, pady=10)
         self.Main_GUI.grid()
-
+ 
         # Quiz Heading(row 0)
         self.math_box_label = Label(self.Main_GUI, text="Math Quiz", font="Arial 19 bold")
         self.math_box_label.grid(row=0)
  
         # entry frame
         self.entry_frame = Frame(self.Main_GUI, padx=10, pady=10)
-        self.entry_frame.grid(row=1)
-
+        self.entry_frame.grid()
+ 
         self.low_amount_entry = Entry(self.entry_frame, font="Arial 19 bold", width=8)
         self.low_amount_entry.grid(row=0, column=0)
   
         self.high_amount_entry = Entry(self.entry_frame, font="Arial 19 bold", width=8)
         self.high_amount_entry.grid(row=0, column=1)
- 
+
+        # buttons frame
+        self.buttons_frame = Frame(self.Main_GUI)
+        self.buttons_frame.grid(row=3)
+
+        # plus button
+        self.plus_button = Button(self.buttons_frame, text="+", command=lambda: self.in_between("'"), pady=5, padx=16)
+        self.plus_button.grid(row=0, column=0, padx=0)
+
+        # minus button
+        self.minus_button = Button(self.buttons_frame, text="−", command=lambda: self.in_between("'"), pady=5, padx=16)
+        self.minus_button.grid(row=0, column=1, padx=0)
+
+        # times button
+        self.times_button = Button(self.buttons_frame, text="×", command=lambda: self.in_between("'"), pady=5, padx=16)
+        self.times_button.grid(row=1, column=0, padx=0)
+
+        # divide button
+        self.divide_button = Button(self.buttons_frame, text="÷", command=lambda: self.in_between("'"), pady=5, padx=16)
+        self.divide_button.grid(row=1, column=1, padx=0)
+
+        # Help Button
+        self.help_button = Button(self.buttons_frame, text='help', command=lambda:Help(), padx=8, pady=5)
+        self.help_button.grid(row=2, column=0, pady=5)
+        
+        # Quit Button
+        self.quit_button = Button(self.buttons_frame, text="Quit", command=self.to_quit, padx=8, pady=5)
+        self.quit_button.grid(row=2, column=1, pady=5)
+        
         # error labels
-        self.error_frame = Frame(self.Main_GUI, padx=10, pady=10)
+        self.error_frame = Frame(self.Main_GUI, padx=10, pady=10,)
         self.error_frame.grid(row=2)
  
         self.error_1_label = Label(self.error_frame, fg="maroon",
                                         text="", font="Arial 9 bold", wrap=275)
         self.error_1_label.grid(row=0, column=0)
-
-       # checkbox frame
-        self.checkbox_frame = Frame(self.Main_GUI, padx=20, pady=5)
-        self.checkbox_frame.grid(row=3)
-  
-        # checkbox inputs
-        self.checkbox_entry = Checkbutton(self.checkbox_frame, text="+", variable="+")
-        self.checkbox_entry.grid(row=0)
-
-        self.checkbox_entry = Checkbutton(self.checkbox_frame, text="−", variable="−")
-        self.checkbox_entry.grid(row=1)
-
-        self.checkbox_entry = Checkbutton(self.checkbox_frame, text="×", variable="×")
-        self.checkbox_entry.grid(row=2)
-
-        self.checkbox_entry = Checkbutton(self.checkbox_frame, text="÷", variable="÷")
-        self.checkbox_entry.grid(row=3)
-
-        # buttons frame
-        self.buttons_frame = Frame(self.Main_GUI, padx=20, pady=5)
-        self.buttons_frame.grid(row=4)
-
-        # Enter button
-        self.enter_button = Button(self.buttons_frame, text="Enter", command=lambda: self.in_between("'"), pady=5, padx=5)
-        self.enter_button.grid(row=0, column=0, padx=5)
-
-        # Quit Button
-        self.quit_button = Button(self.buttons_frame, text="Quit", command=self.to_quit, padx=5, pady=5)
-        self.quit_button.grid(row=0, column=1, padx=5)
-
-        # help frame
-        self.help_frame = Frame(padx=20, pady=5)
-        self.help_frame.grid(row=4)
-
-        # Help Button
-        self.help_button = Button(self.help_frame, text='help', command=lambda:Help(), padx=32, pady=5)
-        self.help_button.grid(row=1, column=0)
  
-
     # function detects if user input has min and max
     def in_between (self, operation):
  
@@ -88,13 +78,13 @@ class Start:
  
         except ValueError:
             has_errors = "yes"
-            self.error_1_label.config(fg='maroon', text="Enter an integer for Max and min value")
+            self.error_1_label.config(fg='maroon', text="Enter an integer for Max and min value\nMin < Max")
             
+    
     def to_quit(self):
         root.destroy()
 
 
-# child window
 class Help:
     def __init__(self):
 
@@ -140,3 +130,5 @@ if __name__ == "__main__":
     root.mainloop()
  
  
+ 
+
