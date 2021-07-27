@@ -128,6 +128,70 @@ class Game:
         self.game_box = Toplevel()
 
 
+class Modes:
+    # Parameters: MODE- Check if user is playing rounds or unlimited mode. || SYMBOL- Its the symbol which the user selected in previous windows (+ - / *) ||
+    # MIN, MAX- The minimum and maximum number range that the user entered in previous windows.
+    def __init__(self, symbol, min, max, rounds, mode):
+        # Creates new window
+        self.Modes_box = Toplevel()
+        # When this window is open, it disables any parent window until this one is closed.
+        self.Modes_box.grab_set()
+        # This force forces on the child window so that the user can't interact with the entry box once this window has been opened.
+        self.Modes_box.focus_force()
+        # Answer, Rounds 
+        self.eqn_ans = IntVar()
+        self.rounds = IntVar()
+        self.symbol = IntVar()
+        self.mode = IntVar()
+    
+        self.rounds.set(rounds)
+        self.symbol.set(symbol)
+        self.mode.set(mode)
+
+        # Top frame
+        self.Modes_frame = Frame(self.Modes_box)
+        self.Modes_frame.grid(padx=30, pady=20)
+
+        # Heading label (row 0)
+        self.heading_label = Label(self.Modes_frame, text="Heading", font='arial 24')
+        self.heading_label.grid(row=0)
+
+        
+        # Error label (row 3)
+        self.error_label = Label(self.Modes_frame, text="", font='arial 13', fg="red", wraplength=150)
+        self.error_label.grid(row=1)
+
+        # Question label (row 2)
+        self.question_label = Label(self.Modes_frame, text="Question here", font='arial 15')
+        self.question_label.grid(row=2)
+
+        # Answer label (row 1)
+        self.answer_label = Label(self.Modes_frame, text="", font='arial 12 bold')
+        self.answer_label.grid(row=3)
+
+        # Answer entry (row 4)
+        self.answer_entry = Entry(self.Modes_frame, width=13)
+        self.answer_entry.grid(row=4)
+
+        # Buttons frame
+        self.buttons_frame = Frame(self.Modes_box)
+        self.buttons_frame.grid(padx=5, pady=5)
+    
+        # Back button (row 0, column 0)
+        self.back_button = Button(self.buttons_frame, text="Back", font='arial 12', fg='white', bg='black', command=lambda:Modes.exit_rounds(self))
+        self.back_button.grid(row=0, column=0)
+        # Enter button (row 0, column 1)
+        self.enter_button = Button(self.buttons_frame, text="Enter", font='arial 12', fg='white', bg='black', command=lambda:Modes.error_checking(self, self.answer_entry.get(), self.eqn_ans.get()))
+        self.enter_button.grid(row=0, column=1, padx=5)
+        # Next button frame
+        self.next_button_frame = Frame(self.Modes_box)
+        self.next_button_frame.grid(pady=5)
+        # Next button (row 1)
+        self.next_button = Button(self.next_button_frame, text="Next", font='arial 12', fg='white', bg='black', padx=10, command=lambda:Modes.equations(self, symbol, min, max))
+        self.next_button.grid(row=1)
+        
+        Modes.equations(self, symbol, min, max)
+
 # main routine
 if __name__ == "__main__":
     root = Tk()
