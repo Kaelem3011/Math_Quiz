@@ -37,35 +37,39 @@ class Start:
         self.buttons_frame.grid(row=3)
 
         # plus button
-        self.plus_button = Button(self.buttons_frame, text="+", command=lambda:Start.error_checking(self), pady=5, padx=16)
+        self.plus_button = Button(self.buttons_frame, text="+", command=lambda:Start.error_checking(self, "+"), pady=5, padx=16)
         self.plus_button.grid(row=0, column=0)
 
         # minus button
-        self.minus_button = Button(self.buttons_frame, text="−", command=lambda:Start.error_checking(self), pady=5, padx=16)
+        self.minus_button = Button(self.buttons_frame, text="−", command=lambda:Start.error_checking(self, "-"), pady=5, padx=16)
         self.minus_button.grid(row=0, column=1)
 
         # times button
-        self.times_button = Button(self.buttons_frame, text="×", command=lambda:Start.error_checking(self), pady=5, padx=16)
+        self.times_button = Button(self.buttons_frame, text="×", command=lambda:Start.error_checking(self, "*"), pady=5, padx=16)
         self.times_button.grid(row=1, column=0)
 
-        # divide button
-        self.divide_button = Button(self.buttons_frame, text="÷", command=lambda:Start.error_checking(self), pady=5, padx=16)
-        self.divide_button.grid(row=1, column=1)
+        # Quit Button
+        self.quit_button = Button(self.buttons_frame, text="⏎", command=self.to_quit, pady=5, padx=14)
+        self.quit_button.grid(row=1, column=1)
+
+        # help frame
+        self.help_frame = Frame(self.master)
+        self.help_frame.grid()
 
         # Help Button
-        self.help_button = Button(self.buttons_frame, text='help', command=lambda:Help(), padx=8, pady=5)
-        self.help_button.grid(row=2, column=0, pady=5)
-        
-        # Quit Button
-        self.quit_button = Button(self.buttons_frame, text="Quit", command=self.to_quit, padx=8, pady=5)
-        self.quit_button.grid(row=2, column=1, pady=5)
+        self.help_button = Button(self.help_frame, text='help', command=lambda:Help(), padx=20, pady=5)
+        self.help_button.grid(row=2, column=0)
 
 
-    def error_checking(self):
+    def error_checking(self, operation):
         try:
             # Sets the minimum value and maximum value
             min = self.min_entry.get()
             max = self.max_entry.get()
+
+            print("You chose {}".format(operation))
+
+            
             # Checks if the entry is blank. If it is, the user will get an error.
             if min == "" or max == "":
                 self.error_label.config(text="Entry is blank")
@@ -84,7 +88,10 @@ class Start:
             # If there are no problems, the error label will hide itself
             else:
                 self.error_label.config(text="")
-            Game(int(self.min_entry.get()), int(self.max_entry.get()))
+            
+            low = int(self.min_entry.get())
+            high = int(self.max_entry.get())
+            Game(low, high, operation)
 
         except ValueError:
             self.error_label.config(text="Please enter a valid number.")
@@ -93,7 +100,7 @@ class Start:
         root.destroy()
         
 class Game:
-    def __init__(self, min, max):
+    def __init__(self, min, max, operation):
         # Creates new window
         self.Game_box = Toplevel()
 
@@ -106,10 +113,9 @@ class Game:
         # Heading label 
         self.heading_label = Label(self.Modes_frame, text="Math quiz", font='arial 24')
         self.heading_label.grid(row=0)
-
         
         # Error label 
-        self.error_label = Label(self.Modes_frame, text="", font='arial 13', fg="red", wraplength=150)
+        self.error_label = Label(self.Modes_frame, text="", font='arial 13', fg="maroon", wraplength=150)
         self.error_label.grid(row=1)
 
         # Question label
@@ -133,22 +139,24 @@ class Game:
         self.enter_button.grid(row=0, column=0, padx=5)
 
         # Next button
-        self.next_button = Button(self.buttons_frame, text="Next", font='arial 12', padx=10, command=lambda:Game.generate(self, min, max))
+        self.next_button = Button(self.buttons_frame, text="Next", font='arial 12', padx=10, command=lambda:Game.generate(self, min, max, operation))
         self.next_button.config(state=DISABLED)
         self.next_button.grid(row=0, column=1)
         
-        Game.generate(self, min, max)
+        Game.generate(self, min, max, operation)
 
 
     def change(self, question):
         self.question_label.config(text=question)
         self.answer_label.config(text="")
 
-    def generate(self, min, max):
+    def generate(self, min, max, operation):
         # Generate two numbers within range.
         a = random.randint(min, max)
         b = random.randint(min, max)
-        question = "{} {} {} =".format(a, "+", b)
+
+
+        question = "{} {} {} =".format(a, operation, b)
         answer = question[:-1]
         
         answer = eval(answer)
@@ -172,8 +180,10 @@ class Game:
             if int(response) == self.eqn_ans.get():
                 # If it is, answer label will change to -
                 self.answer_label.config(text="Correct", fg='green')
+
+                
             else:
-                self.answer_label.config(text="Incorrect", fg='red')
+                self.answer_label.config(text="Incorrect", fg='maroon')
             self.next_button.config(state=NORMAL)
         except ValueError:
             self.error_label.config(text="Please enter a valid number.")
