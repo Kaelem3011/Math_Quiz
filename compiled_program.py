@@ -210,7 +210,8 @@ class Help:
 
         help_text = "Input One (left box) must be lower than or equal to Input Two (right box). " \
                     "Only input integers, no decimals, letters or special characters. " \
-                    "Game is unlimited, to exit press 'x', to shut down press '⏎'" 
+                    "Game is unlimited, to exit press 'x', to shut down press '⏎'" \
+                    "This game is for fun and therefor does not keep score" 
 
         # Help text (label, row 1)
         self.help_text = Label(self.help_frame, text=help_text,
