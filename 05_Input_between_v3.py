@@ -83,7 +83,7 @@ class Start:
                 return
             # Checks if minimum number is higher than max number. If it is then print an error
             if min > max:
-                self.error_label.config(text="Minimum is higher than max, please enter a lower number")
+                self.error_label.config(text="Minimum is higher than max, please enter a lower number", fg='maroon')
                 return
             # If there are no problems, the error label will hide itself
             else:

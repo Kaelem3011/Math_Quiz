@@ -209,7 +209,8 @@ class Help:
         self.how_heading.grid(row=0)
 
         help_text = "Input One (left box) must be lower than or equal to Input Two (right box). " \
-                    "Only input integers, no decimals, letters or special characters."
+                    "Only input integers, no decimals, letters or special characters. " \
+                    "Game is unlimited, to exit press 'x', to shut down press '⏎'" 
 
         # Help text (label, row 1)
         self.help_text = Label(self.help_frame, text=help_text,
